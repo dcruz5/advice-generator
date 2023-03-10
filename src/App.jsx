@@ -1,24 +1,25 @@
 import { useEffect, useState } from 'react'
 import Card from './components/Card'
-import './App.css'
+
+const API_URL = 'https://api.adviceslip.com/advice'
 
 function App() {
   const [advice, setAdvice] = useState([])
 
-  const fetchAdvice = () => {
-    fetch('	https://api.adviceslip.com/advice')
+  const getAdvice = () => {
+    fetch(API_URL)
     .then(res => res.json())
     .then(({slip}) => {
-      const {id, advice} = slip
-      setAdvice([id, advice])
+      console.log('Render app');
+      setAdvice({...slip})
     })
   }
 
-  useEffect(fetchAdvice, [])
+  useEffect(getAdvice, [])
 
   return (
     <div className="App">
-      <Card id={advice[0]} advice={advice[1]} changeAdvice={fetchAdvice}/>
+      <Card id={advice.id} advice={advice.advice} changeAdvice={getAdvice}/>
     </div>
   )
 }
